@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.App h1 {
+    color: rgb(117 118 120);
+}
+
 .App__Game {
     border: 1px solid #cecaca;
     width: 80%;
@@ -14,7 +18,7 @@
 /*left side*/
 .App__Game_left,
 .App__Game_right {
-    border: 1px solid #cecaca;
+    border: 1px solid rgb(243, 243, 243);;
     min-height: 75vh;
     padding: 20px;
     display: flex;
@@ -22,24 +26,116 @@
     align-items: center;
 }
 
-/*right side*/
-.App__Game_right {
-
+.App__Game_left_dropdown,
+.App__Game_left_name,
+.App__Game_left_btn {
+    padding: 10px 15px;
+    margin-right: 20px;
+    width: 230px;
+    background: rgb(207, 216, 221);
+    color: rgb(117 118 120);
+    font-size: 20px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    border-radius: 8px;
 }
-.App__Game_left_table{
-    /*width: 25rem;*/
+
+.App__Game_left_name {
+    background: rgb(243, 243, 243);
+}
+
+.App__Game_left_btn {
+    background: rgb(124, 141, 149);
+    color: white;
+    width: 150px;
+    margin: 0;
+}
+
+.App__Game_left_dropdown > option {
+    background: white;
+    border: none;
+}
+
+.App__Game_left_table {
     display: flex;
     flex-wrap: wrap;
-    box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 10px rgb(243, 243, 243);
 }
 
 .App__Game_left_table > p {
     box-sizing: border-box;
-    border: 1px solid gray;
-    /*width: 5rem;*/
-    /*height: 5rem;*/
+    border: 1px solid rgb(243, 243, 243);
     margin: 0;
     font-size: 10px;
 }
 
+.App__Game_left > h3 {
+    font-size: 25px;
+    color: rgb(117 118 120);
+}
 
+.green {
+    background: rgb(0, 255, 100);
+}
+
+.blue {
+    background: rgb(70, 220, 240);
+}
+
+.red {
+    background: rgb(234, 66, 79);
+}
+
+/*right side*/
+.App__Game_right {
+
+}
+
+.App__Game_right > h2 {
+    font-size: 30px;
+    color: rgb(117 118 120);
+    margin-bottom: 15px;
+}
+
+.App__Game_right_table > thead {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    background: rgb(124, 141, 149);
+}
+
+.App__Game_right_table > thead th,
+.App__Game_right_table > tbody td {
+    padding: 10px 20px;
+    min-width: 250px;
+    margin-bottom: 3px;
+}
+
+.App__Game_right_table > tbody {
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(117 118 120);
+    background: rgb(243, 243, 243);
+}
+
+.App__Game_right_table tr {
+    border-bottom: 3px solid white;
+}
+
+.App__Game_right_table > tbody {
+
+}
+
+
+@media (max-width: 1024px) {
+    .App__Game_left_dropdown,
+    .App__Game_left_name {
+        width: 220px;
+        margin-right: 10px;
+    }
+
+    .App__Game_left_btn {
+        width: 125px;
+    }
+}
