@@ -13,6 +13,7 @@ function App() {
     const [selectedName, setSelectedName] = useState("")
     const [selectedData, setSelectedData] = useState({})
     const [winners, setWinners] = useState([])
+    const [matrix, setMatrix] = useState([])
 
     //get mode type
     useEffect(() => {
@@ -29,7 +30,7 @@ function App() {
     }, [])
 
     const handleChangeMode = (event) => {
-        setSelectedMode(event.target.value)
+        setSelectedMode(event.target.value);
     }
 
     const handleChangeName = (event) => {
@@ -39,31 +40,36 @@ function App() {
     const handleSubmit = (event) => {
         event.preventDefault();
         setSelectedData(gameModes[selectedMode])
-        // console.log("selectedMode =",selectedMode, "selectedName =",selectedName, "gameModes =", gameModes, Object.entries(gameModes))
+        setMatrix(Array(gameModes[selectedMode]["field"]).fill(0).map(row => new Array(gameModes[selectedMode]["field"]).fill(0)));
+        setInterval(() => {
+            let random = Math.floor(Math.random()* gameModes[selectedMode]["field"]+1)
+            console.log(gameModes[selectedMode]["delay"], random);
+        }, gameModes[selectedMode]["delay"])
     }
 
     const myStyle = {
-        div: {
-            width: (selectedData["field"] === 5 ? Math.pow(selectedData["field"], 2) : 35) + "rem"
-        },
+        // div: {
+        //     width: (selectedData["field"] === 5 ? Math.pow(selectedData["field"], 2) : 35) + "rem"
+        // },
 
         p: {
             width: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem",
             height: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem"
         }
     }
-
-    const makeMatric = (max) => {
-        const row = [];
-        for (let i = 0; i < max; i++) {
-            row.push([])
-            for (let j = 0; j < max; j++) {
-                row[i].push(<p style={myStyle.p} key={`${i}-${j}`}>{`${i}-${j}`}</p>);
-            }
-        }
-        // console.log("Row ", row);
-        return row;
-    };
+    //
+    // const makeMatric = (max) => {
+    //     const row = [];
+    //     for (let i = 0; i < max; i++) {
+    //         row.push([])
+    //         for (let j = 0; j < max; j++) {
+    //             row[i].push(<p style={myStyle.p} key={`${i}-${j}`}>0</p>);
+    //         }
+    //     }
+    //     // console.log("Row ", row);
+    //     return row;
+    // };
+    // console.log("matrix ",matrix);
 
     return (
         <div className="App">
@@ -97,7 +103,16 @@ function App() {
 
                         <div className="App__Game_left_table" style={myStyle.div}>
                             {
-                                selectedData && makeMatric(selectedData["field"])
+                                matrix &&
+                                matrix.map((row, i) => (
+                                        <div key={i}>
+                                            {row.map((col, j) => (
+                                                <p style={myStyle.p} key={`${i}-${j}`}
+                                                   className={`color-${matrix[i][j]}`}>{`${i}-${j}`}</p>
+                                            ))}
+                                        </div>
+                                    )
+                                )
                             }
                         </div>
                     </Col>

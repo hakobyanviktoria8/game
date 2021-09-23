@@ -41,6 +41,7 @@
     border-radius: 8px;
 }
 
+
 .App__Game_left_name {
     background: rgb(243, 243, 243);
 }
@@ -58,12 +59,16 @@
 }
 
 .App__Game_left_table {
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
     box-shadow: 0 0 10px rgb(243, 243, 243);
 }
 
-.App__Game_left_table > p {
+.App__Game_left_table > div {
+    display: flex;
+}
+
+.App__Game_left_table > div > p {
     box-sizing: border-box;
     border: 1px solid rgb(243, 243, 243);
     margin: 0;
@@ -75,15 +80,20 @@
     color: rgb(117 118 120);
 }
 
-.green {
-    background: rgb(0, 255, 100);
+
+.color-0 {
+    background: white;
 }
 
-.blue {
+.color-1 {
     background: rgb(70, 220, 240);
 }
 
-.red {
+.color-2 {
+    background: rgb(0, 255, 100);
+}
+
+.color-3 {
     background: rgb(234, 66, 79);
 }
 
