@@ -3,18 +3,21 @@ import './App.css';
 import {Container, Row, Col} from 'reactstrap';
 
 function App() {
-    //give data in this API
-    //https://starnavi-frontend-test-task.herokuapp.com/game-settings
     const url = "https://starnavi-frontend-test-task.herokuapp.com/game-settings";
     const winnersUrl = "https://starnavi-frontend-test-task.herokuapp.com/winners";
 
     const [gameModes, setGameModes] = useState({});
     const [selectedMode, setSelectedMode] = useState("")
-    const [selectedName, setSelectedName] = useState("")
+    const [playerName, setPlayerName] = useState("")
     const [selectedData, setSelectedData] = useState({})
     const [winners, setWinners] = useState([])
     const [matrix, setMatrix] = useState([])
+    const [gameCurrentState, setGameCurrentState] = useState("start")
 
+    const myStyle = {
+        width: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem",
+        height: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem"
+    }
     //get mode type
     useEffect(() => {
         fetch(url)
@@ -33,43 +36,41 @@ function App() {
         setSelectedMode(event.target.value);
     }
 
-    const handleChangeName = (event) => {
-        setSelectedName(event.target.value)
+    const handleChangePlayerName = (event) => {
+        setPlayerName(event.target.value)
     }
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSelectedData(gameModes[selectedMode])
+        setSelectedData(gameModes[selectedMode]);
         setMatrix(Array(gameModes[selectedMode]["field"]).fill(0).map(row => new Array(gameModes[selectedMode]["field"]).fill(0)));
+
+        setGameCurrentState("current")
+        // setInterval(() => {
+        //     randomCol()
+        // }, gameModes[selectedMode]["delay"])
+    }
+
+
+    useEffect(() => {
+        console.log("matrix", matrix)
+        gameCurrentState === "current" &&
         setInterval(() => {
-            let random = Math.floor(Math.random()* gameModes[selectedMode]["field"]+1)
-            console.log(gameModes[selectedMode]["delay"], random);
+            let i, j;
+            do {
+                i = Math.floor(Math.random() * gameModes[selectedMode]["field"]);
+                j = Math.floor(Math.random() * gameModes[selectedMode]["field"]);
+                console.log(i + "-" + j, matrix[i][j])
+            } while (matrix[i][j] !== 0)
+
+            matrix[i][j] = 1;
+            setMatrix([...matrix])
+            // matrix[i][j]["type"].styles.backgroundColor ="blue"
+
         }, gameModes[selectedMode]["delay"])
-    }
-
-    const myStyle = {
-        // div: {
-        //     width: (selectedData["field"] === 5 ? Math.pow(selectedData["field"], 2) : 35) + "rem"
-        // },
-
-        p: {
-            width: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem",
-            height: (selectedData["field"] === 5 ? selectedData["field"] : selectedData["field"] === 10 ? "3.5" : 2.33) + "rem"
-        }
-    }
-    //
-    // const makeMatric = (max) => {
-    //     const row = [];
-    //     for (let i = 0; i < max; i++) {
-    //         row.push([])
-    //         for (let j = 0; j < max; j++) {
-    //             row[i].push(<p style={myStyle.p} key={`${i}-${j}`}>0</p>);
-    //         }
-    //     }
-    //     // console.log("Row ", row);
-    //     return row;
-    // };
-    // console.log("matrix ",matrix);
+        setGameCurrentState("inProgress")
+    }, [gameCurrentState])
 
     return (
         <div className="App">
@@ -94,21 +95,22 @@ function App() {
                                 </select>
                             </label>
                             <label>
-                                <input type="text" value={selectedName} onChange={handleChangeName}
+                                <input type="text" value={playerName} onChange={handleChangePlayerName}
                                        className="App__Game_left_name" placeholder="Enter your name"/>
                             </label>
+
                             <input type="submit" value="PLAY" disabled={!selectedMode} className="App__Game_left_btn"/>
                         </form>
                         <h3 className="text-center my-3">Welcome to the Game In Dots</h3>
 
-                        <div className="App__Game_left_table" style={myStyle.div}>
+                        <div className="App__Game_left_table">
                             {
                                 matrix &&
                                 matrix.map((row, i) => (
                                         <div key={i}>
                                             {row.map((col, j) => (
-                                                <p style={myStyle.p} key={`${i}-${j}`}
-                                                   className={`color-${matrix[i][j]}`}>{`${i}-${j}`}</p>
+                                                <p style={myStyle} key={`${i}-${j}`}
+                                                   className={`color-${(matrix[i][j])}`}>{matrix[i][j]}</p>
                                             ))}
                                         </div>
                                     )
