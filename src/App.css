@@ -41,7 +41,6 @@
     border-radius: 8px;
 }
 
-
 .App__Game_left_name {
     background: rgb(243, 243, 243);
 }
@@ -59,8 +58,6 @@
 }
 
 .App__Game_left_table {
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
     box-shadow: 0 0 10px rgb(243, 243, 243);
 }
 
@@ -80,7 +77,6 @@
     color: rgb(117 118 120);
 }
 
-
 .color-0 {
     background: white;
 }
@@ -98,10 +94,6 @@
 }
 
 /*right side*/
-.App__Game_right {
-
-}
-
 .App__Game_right > h2 {
     font-size: 30px;
     color: rgb(117 118 120);
@@ -132,11 +124,6 @@
 .App__Game_right_table tr {
     border-bottom: 3px solid white;
 }
-
-.App__Game_right_table > tbody {
-
-}
-
 
 @media (max-width: 1024px) {
     .App__Game_left_dropdown,
