@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-const Winners = () => {
+const Winners = ({win}) => {
     const winnersUrl = "https://starnavi-frontend-test-task.herokuapp.com/winners";
     const [winners, setWinners] = useState([]);
 
@@ -9,7 +9,7 @@ const Winners = () => {
         fetch(winnersUrl)
             .then(res => res.json())
             .then(res => setWinners(res))
-    }, [])
+    }, [winners, win])
 
     return (
         <table className="App__Game_right_table">

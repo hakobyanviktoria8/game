@@ -3,6 +3,7 @@ import './App.css';
 import {Container, Row, Col} from 'reactstrap';
 import Winners from "./component/Winners";
 import Matrix from "./component/Matrix";
+import axios from "axios";
 
 function App() {
     const url = "https://starnavi-frontend-test-task.herokuapp.com/game-settings";
@@ -97,33 +98,27 @@ function App() {
         return `${hours}:${minutes}; ${day} ${months[month]} ${year}`
     }
 
+    function finishGame(winnerName) {
+        setGameCurrentState("finish");
+        setWin(winnerName);
+        clearInterval(intervalId)
+        let sendData = {winner: winnerName, date: generateDate()};
+        axios.post("https://starnavi-frontend-test-task.herokuapp.com/winners", sendData)
+            .then(res => console.log("res = ", res))
+            .catch(err => console.error('There was an error!', err))
+    }
+
     useEffect(() => {
         console.log("greenCount = ", greenCount, "redCount = ", redCount, "playerName = ", playerName);
         console.log("maxCount = ", maxCount, "gameCurrentState = ", gameCurrentState);
 
         if (redCount >= maxCount) {
-            setGameCurrentState("finish");
-            setWin("Computer");
-            clearInterval(intervalId)
+            finishGame("Computer");
         } else if (greenCount >= maxCount) {
-            setGameCurrentState("finish");
-            setWin(playerName);
-            clearInterval(intervalId);
+            finishGame(playerName);
         }
 
-        const sendData = {winner: win, date: generateDate()};
-        console.log(sendData);
-
     }, [redCount, greenCount])
-
-//     useEffect(() => {
-//         // POST request using axios inside useEffect React hook
-//         const article = { title: 'React Hooks POST Request Example' };
-//         axios.post('https://reqres.in/api/articles', article)
-//             .then(response => setArticleId(response.data.id));
-//
-// // empty dependency array means this effect will only run once (like componentDidMount in classes)
-//     }, []);
 
     const handleClickCell = (e) => {
         let i = +e.target.getAttribute("data-i")
@@ -176,7 +171,7 @@ function App() {
                     </Col>
                     <Col lg="6" md="12" className="App__Game_right">
                         <h2>Leader Board</h2>
-                        <Winners/>
+                        <Winners win={win}/>
                     </Col>
                 </Row>
             </Container>
